@@ -1,36 +1,35 @@
-from django.shortcuts import render
-
-# Create your views here.
-
-from django.shortcuts import render
-
-from django.http import HttpResponse
-from .models import UserRecord, Users, SubmitRecord
-import json
-from django.core import serializers
+from .models import *
+from .serializers import *
+from .utils import send_mail
 
 
-# Create your views here.
+from rest_framework import generics
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
-def get_record(request):
-    records = UserRecord.objects.all();
-    data = {}
-    data['list'] = json.loads(serializers.serialize("json", records))
-    return HttpResponse(json.dumps(data, ensure_ascii=False), content_type="application/json,charset=utf-8")
+class ShiftView(generics.ListCreateAPIView):
+    queryset = ShiftInfo.objects.all()
+    serializer_class = ShiftInfoSerializer
+
+    def post(self, request, *args, **kwargs):
+        # print(request.data['shift_id'])
+        shift_id = request.data['shift_id']
+        emails = Register.objects.filter(
+            shift_id=shift_id).values_list('email', flat=True)
+        for email in emails:
+            # print(email)
+            send_mail(email, shift_id)
+
+        return super().post(request, *args, **kwargs)
 
 
-def get_user(request, id):
-    user = Users.objects.filter(user_id=id);
-    data = {}
-    data['list'] = json.loads(serializers.serialize("json", user))
-    return HttpResponse(json.dumps(data, ensure_ascii=False), content_type="application/json,charset=utf-8")
+class PersonView(generics.ListCreateAPIView):
+    queryset = PersonInfo.objects.all()
+    serializer_class = PersonInfoSerializer
 
 
-def search(request, id):
-    records = SubmitRecord.objects.filter(user_id2=id)
-    sets = set()
-    for record in records:
-        sets.add(record.record_id1)
-    data = {}
-    data['list'] = json.loads(serializers.serialize("json", sets))
-    return HttpResponse(json.dumps(data, ensure_ascii=False), content_type="application/json,charset=utf-8")
+@api_view(['GET'])
+def export(request, shift_id):
+    people = Register.objects.filter(shift_id=shift_id)
+    serializer = PersonInfoSerializer(people, many=True)
+    return Response(serializer.data)

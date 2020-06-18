@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/root/python/env"
+VIRTUAL_ENV="/Volumes/macbook/vscode/python/django/SEPj/env"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

@@ -25,14 +25,18 @@ SECRET_KEY = 'cz2q+1l^*&a#of06ldah=5^3bs0$)nu(umg9scp*i*0((mm0n7'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['library.komikun.cn']
+ALLOWED_HOSTS = ['library.komikun.cn', 'localhost']
 
 
 # Application definition
 
 INSTALLED_APPS = [
     'API',
+
     'corsheaders',
+    'rest_framework_swagger',
+    'rest_framework',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -83,8 +87,7 @@ ROOT_URLCONF = 'SEPj.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -104,7 +107,7 @@ WSGI_APPLICATION = 'SEPj.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    'default':{
+    'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'G3',
         'USER': 'tmp',

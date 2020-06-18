@@ -1,9 +1,7 @@
-from django.contrib import admin
-from django.urls import include, path
-from .views import get_record, get_user, search
-
+from django.urls import path
+from .views import *
 urlpatterns = [
-    path('records/', get_record),
-    path('user/<int:id>', get_user),
-    path('search/<int:id>', search)
+    path('shifts',ShiftView.as_view()),
+    path('people',PersonView.as_view()),
+    path('export/<str:shift_id>',export)
 ]
