@@ -18,7 +18,7 @@ def send_mail(receivers,info):
     message['To'] = receivers
     try:
         smtpObj = smtplib.SMTP()
-        smtpObj.connect(mail_host, 25)
+        smtpObj.connect(mail_host, 587)
         smtpObj.login(mail_user, mail_pass)
         smtpObj.sendmail(
             sender, receivers, message.as_string())

@@ -3,5 +3,6 @@ from .views import *
 urlpatterns = [
     path('shifts',ShiftView.as_view()),
     path('people',PersonView.as_view()),
-    path('export/<str:shift_id>',export)
+    path('export/<str:shift_id>',export),
+    path('register',RegisterView.as_view())
 ]

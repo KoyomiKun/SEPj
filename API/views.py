@@ -27,6 +27,9 @@ class PersonView(generics.ListCreateAPIView):
     queryset = PersonInfo.objects.all()
     serializer_class = PersonInfoSerializer
 
+class RegisterView(generics.ListCreateAPIView):
+    queryset = Register.objects.all()
+    serializer_class = RegisterSerializer
 
 @api_view(['GET'])
 def export(request, shift_id):
